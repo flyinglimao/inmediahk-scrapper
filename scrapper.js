@@ -18,6 +18,8 @@ module.exports = async function scrapper(url) {
     const heroImage = $('.post-content img.post-img').attr('data-src768') || $('.post-content img.post-img').attr('src')
     const date = formatDate($('.post-meta .date').text())
     const publisher = $('.post-meta .author').text()
+    const subjectOf = $('.post-meta-wrapper h2 a').text()
+    const keywords = $('.post-tag a').map((_, e) => $(e).text()).toArray().join(' ')
 
     // Download hero
     const heroImgPath = 'hero' + heroImage.substring(heroImage.lastIndexOf('.'), heroImage.lastIndexOf('?'))
@@ -65,9 +67,11 @@ module.exports = async function scrapper(url) {
         type: 'Article',
         datePublished: date,
         author: publisher,
-        publisher,
+        publisher: 'inmediahk',
+        subjectOf,
         name: title,
         headline: title,
+        keywords,
         url: `https://ipfs.io/ipfs/${hash}`,
         ipfsHash: hash,
         text: ''

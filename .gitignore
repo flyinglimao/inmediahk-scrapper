@@ -1,5 +1,6 @@
 .env
 .DS_Store
+result.csv
 
 node_modules
 working_folder/*

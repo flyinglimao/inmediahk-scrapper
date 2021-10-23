@@ -7,7 +7,7 @@ const path = require('path')
 
 const roots = [
     'https://www.inmediahk.net/socialmovement', // 社運
-]/*
+]/* comment this line to scrape all categories
     'https://www.inmediahk.net/taxonomy/term/5030', // 政經
     'https://www.inmediahk.net/community', // 社區
     'https://www.inmediahk.net/world', // 國際
@@ -34,6 +34,7 @@ function clear() {
     })
 }
 
+let exitFlag = false
 ;(async () => {
     let pageIdx = 0
     while (pageIdx < 3) {
@@ -51,9 +52,15 @@ function clear() {
                     console.log('break')
                 }
             }
+            console.log('Page finish')
             new ObjectsToCsv(buf).toDisk('./result.csv', { append: true });
         }
         pageIdx++
     }
+    exitFlag = true
 })()
-setInterval(() => { }, 100000)
+
+// Prevent exit
+const _ = setInterval(() => {
+    if (exitFlag) clearInterval(_)
+}, 1000)
